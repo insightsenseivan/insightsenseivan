@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Palpites Lotofácil</title>
+<style>
+    body {
+        background-color: #1e1e1e;
+        font-family: Arial, sans-serif;
+        color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    table {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px 0;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    td {
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        color: yellow;
+    }
+    tr:hover td {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    td:hover {
+        transform: scale(1.05);
+    }
+    button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #f0f0f0;
+        background-color: #3b5998;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #4c70ba;
+    }
+    .selected-numbers {
+        text-align: center;
+        font-size: 18px;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgba(46, 46, 46, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: lightgreen;
+        min-height: 40px;
+    }
+    .selected-numbers div {
+        margin: 5px;
+        padding: 5px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        display: inline-block;
+    }
+    .red-line {
+        border-bottom: 2px solid red;
+    }
+    .input-field {
+        margin: 20px 0;
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: rgba(46, 46, 46, 0.8);
+        color: #f0f0f0;
+    }
+    .results-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    @media (max-width: 600px) {
+        td {
+            font-size: 14px;
+            padding: 10px;
+        }
+        button {
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+        .input-field {
+            font-size: 14px;
+            padding: 8px;
+        }
+        .selected-numbers {
+            font-size: 16px;
+        }
+    }
+</style>
+<script>
+    function highlightCell(cell) {
+        cell.style.backgroundColor = cell.style.backgroundColor === 'green' ? '' : 'green';
+    }
+
+    function generateSelectedNumbers() {
+        const tables = document.querySelectorAll('table');
+        tables.forEach((table, index) => {
+            const cells = table.querySelectorAll('td');
+            const selectedNumbers = [];
+            cells.forEach(cell => {
+                if (cell.style.backgroundColor === 'green') {
+                    selectedNumbers.push(cell.textContent);
+                }
+            });
+            const container = document.getElementById(`selectedNumbersTable${index + 1}`);
+            container.innerHTML = `<strong>Números Selecionados Tabela ${index + 1}:</strong> `;
+            selectedNumbers.forEach(num => {
+                const div = document.createElement('div');
+                div.textContent = num;
+                container.appendChild(div);
+            });
+        });
+    }
+
+    function compareNumbers() {
+        const drawnNumbers = document.querySelector('.input-field').value
+            .split(/[\s,]+/)
+            .filter(num => num !== '');
+        const tables = document.querySelectorAll('table');
+        tables.forEach((table, index) => {
+            const cells = table.querySelectorAll('td');
+            const selectedNumbers = [];
+            cells.forEach(cell => {
+                if (cell.style.backgroundColor === 'green') {
+                    selectedNumbers.push(cell.textContent);
+                }
+            });
+            const matches = drawnNumbers.filter(num => selectedNumbers.includes(num));
+            const container = document.getElementById(`matchResultTable${index + 1}`);
+            container.innerHTML = `<strong>Acertos Tabela ${index + 1}:</strong> `;
+            matches.forEach(match => {
+                const div = document.createElement('div');
+                div.textContent = match;
+                container.appendChild(div);
+            });
+        });
+    }
+</script>
+</head>
+<body>
+<h1>Gerador de Palpites Lotofácil</h1>
+<table>
+    <tr>
+        <td onclick="highlightCell(this)">1</td>
+        <td onclick="highlightCell(this)">2</td>
+        <td onclick="highlightCell(this)">3</td>
+        <td onclick="highlightCell(this)">4</td>
+        <td onclick="highlightCell(this)">5</td>
+    </tr>
+    <tr class="red-line">
+        <td onclick="highlightCell(this)">6</td>
+        <td onclick="highlightCell(this)">7</td>
+        <td onclick="highlightCell(this)">8</td>
+        <td onclick="highlightCell(this)">9</td>
+        <td onclick="highlightCell(this)">10</td>
+    </tr>
+    <tr>
+        <td onclick="highlightCell(this)">11</td>
+        <td onclick="highlightCell(this)">12</td>
+        <td onclick="highlightCell(this)">13</td>
+        <td onclick="highlightCell(this)">14</td>
+        <td onclick="highlightCell(this)">15</td>
+    </tr>
+    <tr>
+        <td onclick="highlightCell(this)">16</td>
+        <td onclick="highlightCell(this)">17</td>
+        <td onclick="highlightCell(this)">18</td>
+        <td onclick="highlightCell(this)">19</td>
+        <td onclick="highlightCell(this)">20</td>
+    </tr>
+    <tr>
+        <td onclick="highlightCell(this)">21</td>
+        <td onclick="highlightCell(this)">22</td>
+        <td onclick="highlightCell(this)">23</td>
+        <td onclick="highlightCell(this)">24</td>
+        <td onclick="highlightCell(this)">25</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td onclick="highlightCell(this)">1</td>
+        <td onclick="highlightCell(this)">2</td>
+        <td onclick="highlightCell(this)">3</td>
+        <td onclick="highlightCell(this)">4</td>
+        <td onclick="highlightCell(this)">5</td>
+    </tr>
+    <tr>
+        <td onclick="highlightCell(this)">6</td>
+        <td onclick="highlightCell(this)">7</td>
+        <td onclick="highlightCell(this)">8</td>
+        <td onclick="highlightCell(this)">9</td>
+        <td onclick="highlightCell(this)">10</td>
+    </tr>
+    <tr class="red-line">
+        <td onclick="highlightCell(this)">11</td>
+        <td onclick="highlightCell(this)">12</td>
+        <td onclick="highlightCell(this)">13</td>
+        <td onclick="highlightCell(this)">14</td>
+        <td onclick="highlightCell(this)">15</td>
+    </tr>
+    <tr>
+        <td onclick="highlightCell(this)">16</td>
+        <td onclick="highlightCell(this)">17</td>
+        <td onclick="highlightCell(this)">18</td>
+        <td onclick="highlightCell(this)">19</td>
+        <td onclick="highlightCell(this)">20</td>
+    </tr>
+    <tr>
+        <td onclick="highlightCell(this)">21</td>
+        <td onclick="highlightCell(this)">22</td>
+        <td onclick="highlightCell(this)">23</td>
+        <td onclick="highlightCell(this)">24</td>
+        <td onclick="highlightCell(this)">25</td>
+    </tr>
+</table>
+<button onclick="generateSelectedNumbers()">Gerar</button>
+<div class="results-container">
+    <input type="text" class="input-field" placeholder="Digite os números separados por espaço ou vírgula">
+    <button onclick="compareNumbers()">Comparar</button>
+    <div class="results-column">
+        <div id="selectedNumbersTable1" class="selected-numbers"></div>
+        <div id="matchResultTable1" class="selected-numbers"></div>
+    </div>
+    <div class="results-column">
+        <div id="selectedNumbersTable2" class="selected-numbers"></div>
+        <div id="matchResultTable2" class="selected-numbers"></div>
+    </div>
+</div>
+</body>
+</html>
